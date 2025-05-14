@@ -4,12 +4,16 @@
 # Name        : Kanisius Sosrodimardito
 # Student ID  : 24023272
 
-csv_file=$1
-
-# File check (exist or not on the directory)
-if [[ ! -f "$csv_file" ]]; then
-    echo "Error: The specified input file $csv_file does not exist or is empty." >&2
+# ====================================================================================================
+# FIRST ARGUMENT CHECK
+# ====================================================================================================
+# Check whether or not the file exist and is valid
+if [[ ! -f $1 ]]; then
+    echo "Error in 1st argument: The specified input file does not exist or is empty." > /dev/stderr
     exit 1
+else
+    # Put the file in a variable to better call later on
+    csv_file="$1"
 fi
 
 # Processes header name and count missing values
