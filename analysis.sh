@@ -50,6 +50,7 @@ END {
 
 # 3. Pearson correlation: Year Published vs Rating Average
 corr_year_rating=$(awk -F'\t' '
+# Skip rows where Year Published or Rating Average is missing
 NR>1 && $3 != "" && $9 != "" {
   n++
   x += $3
