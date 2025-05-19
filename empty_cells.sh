@@ -4,18 +4,25 @@
 # Name        : Kanisius Sosrodimardito
 # Student ID  : 24023272
 
-# ====================================================================================================
-# FIRST ARGUMENT CHECK
-# ====================================================================================================
-# Check whether or not the file exist and is valid
+# ==================================================================================
+# ARGUMENT CHECKS
+# ==================================================================================
+
+# Check if the first argument (file name) exists and is a regular file
 if [[ ! -f $1 ]]; then
     echo "Error in 1st argument: The specified input file does not exist or is empty." > /dev/stderr
     exit 1
 else
-    # Put the file in a variable to better call later on
     csv_file="$1"
 fi
 
+# Check if the second argument (delimiter) is provided and is a single character
+if [[ -z "$2" || ${#2} -ne 1 ]]; then
+    echo "Error in 2nd argument: Please specify a single character as delimiter." > /dev/stderr
+    exit 1
+else
+    delimiter="$2"
+fi
 # Processes header name and count missing values
 awk -F';' '
 NR==1 {
@@ -27,7 +34,8 @@ NR==1 {
     }
     next
 }
-# Loop through each column from row 2 onwards, then clean any space and tab from each cell, if it is an empty cell it will increase the count for that column
+# Loop through each column from row 2 onwards, then clean any space and tab from each cell, 
+# if it is an empty cell it will increase the count for that column
 {
     for (i = 1; i <= NF; i++) {
         gsub(/^[ \t\r\n]+|[ \t\r\n]+$/, "", $i)
